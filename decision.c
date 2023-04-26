@@ -19,7 +19,7 @@ int decision(char **arguments, int size, char **_env, int *w_status)
 	{
 		if ((**arguments == '/') | (**arguments == '.'))
 		{
-			i = executor(arguments, arguments[0], size);
+			i = shell_exec(arguments, arguments[0], size);
 			*w_status = i;
 			return (*w_status);
 		}
@@ -32,7 +32,7 @@ int decision(char **arguments, int size, char **_env, int *w_status)
 			}
 			else
 			{
-				path_finder(arguments, size, _env, w_status);
+				find_path(arguments, size, _env, w_status);
 				return (0);
 			}
 		}

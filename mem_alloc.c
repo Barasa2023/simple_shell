@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "headers.h"
+#include "shell.h"
 
 /**
  * mem_alloc - Function to create a dynamic array of pointers

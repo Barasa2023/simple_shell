@@ -5,7 +5,7 @@
 /**
  * find_exec - function to find and execute command.
  * @arguments: Arrays of arguments to execute.
- * @path: Path to sommand to execute is.
+ * @path: Path to command to execute is.
  * @size0: Size of array
  * @size1: Size of array
  * @wstat: Return status of the last program executed.
@@ -33,7 +33,7 @@ int find_exec(char **arguments, char **path, int size0, int size1, int *wstat)
 			{
 				if ((chdir(_cwd)) < 0)
 					return (-1);
-				result = executor(arguments, pathfile, size0);
+				result = shell_exec(arguments, pathfile, size0);
 				*wstat = result;
 
 				if (result < 0)

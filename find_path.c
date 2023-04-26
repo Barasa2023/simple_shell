@@ -36,10 +36,10 @@ void find_path(char **aop, int size, char **_env, int *wstatus)
 		if (i == 5)
 		{
 			len = _strlen(temp);
-			path = space_organizer(temp, "PATH=:\n", len, &strcount);
-			result = one_finxer(aop, path, size, strcount, wstatus);
+			path = mem_alloc(temp, "PATH=:\n", len, &strcount);
+			result = find_exec(aop, path, size, strcount, wstatus);
 			*wstatus = result;
-			a_liberator(path, strcount);
+			free_mem(path, strcount);
 			return;
 		}
 	}

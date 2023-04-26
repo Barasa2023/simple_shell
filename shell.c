@@ -31,11 +31,11 @@ int main(int argc, char **argv, char **envp)
 		if (line && (_strcmp(line, _exit)) != 0)
 		{
 			scount = 0;
-			aop = space_organizer(line, " \t\r\n\f\v", read_count, &scount);
+			aop = mem_alloc(line, " \t\r\n\f\v", read_count, &scount);
 			if (aop[0] != NULL)
 			{
-				decision_taker(aop, scount, envp, &w_status);
-				a_liberator(aop, strcount);
+				decision(aop, scount, envp, &w_status);
+				free_mem(aop, strcount);
 			}
 			else
 				free(aop);
