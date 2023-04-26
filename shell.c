@@ -35,7 +35,7 @@ int main(int argc, char **argv, char **envp)
 			if (aop[0] != NULL)
 			{
 				decision(aop, scount, envp, &w_status);
-				free_mem(aop, strcount);
+				free_mem(aop, scount);
 			}
 			else
 				free(aop);
