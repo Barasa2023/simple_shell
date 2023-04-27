@@ -1,59 +1,46 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "shell.h"
-
-#define UNUSED(x) (void)(x)
-
 /**
- * main - The entry point for the program
- * Description: execute commands defined of the $PATH.
- * @argc: unused variable.
- * @argv: Unused variable
- * @envp: environment for current executing command
- * Return: (EXIT_SUCCESS)
+ * main - A function that runs our shell.
+ * @ac: The number of inputed arguments.
+ * @av: The pointer to array of inputed arguments.
+ * @env: The pointer to array of enviromental variables.
+ * Return: Always 0.
  */
-
-int main(int argc, char **argv, char **envp)
+int main(int ac, char **av, char **env)
 {
-	char *line = NULL, **aop, *_exit = "exit";
-	size_t len = 0;
-	ssize_t read_count;
-	int scount = 0, w_status = 0;
+	char *buffer = NULL, **command = NULL;
+	size_t buffersize = 0;
+	ssize_t chars_num = 0;
+	int cycles = 0;
+	(void)ac;
 
-	signal(SIGINT, SIG_IGN);
-	UNUSED(argc);
-	UNUSED(argv);
-
-	write(1, "Watcher$ ", 9);
-	while ((read_count = getline(&line, &len, stdin)) != EOF)
+	while (1)
 	{
-		if (line && (_strcmp(line, _exit)) != 0)
-		{
-			scount = 0;
-			aop = mem_alloc(line, " \t\r\n\f\v", read_count, &scount);
-			if (aop[0] != NULL)
-			{
-				decision(aop, scount, envp, &w_status);
-				free_mem(aop, scount);
-			}
-			else
-				free(aop);
-
-			write(1, "\nWatcher$ ", 10);
-		}
-		else if ((_strcmp(line, _exit)) == 0)
-		{
-			free(line);
-			exit(w_status);
-		}
+		cycles++;
+		tipresh_prompt();
+		signal(SIGINT, ctrl_c_handler);
+		chars_num = getline(&buffer, &buffersize, stdin);
+		if (chars_num == EOF)
+			_EOF(buffer);
+		else if (*buffer == '\n')
+			free(buffer);
 		else
 		{
-			perror("Error, unable to allocate buffer\n");
+			buffer[_strlen(buffer) - 1] = '\0';
+			command = tokenizer(buffer, " \0");
+			free(buffer);
+			if (_strcmp(command[0], "exit") != 0)
+				exit_shell(command);
+			else if (_strcmp(command[0], "cd") != 0)
+				change_dir(command[1]);
+			else
+				launch_subprocess(command, av[0], env, cycles);
 		}
+		fflush(stdin);
+		buffer = NULL, buffersize = 0;
 	}
-
-	free(line);
-	exit(EXIT_SUCCESS);
-
+	if (chars_num == -1)
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
+/* by Tito osadebe and precious uzoma */
