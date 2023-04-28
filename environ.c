@@ -1,25 +1,25 @@
 #include "shell.h"
 
 /**
- * print_env - prints the current environment
+ * _myenv - prints the current environment
  * @info: Structure containing potential arguments. Used to maintain
  *          constant function prototype.
  * Return: Always 0
  */
-int print_env(info_t *info)
+int _myenv(info_t *info)
 {
 	print_list_str(info->env);
 	return (0);
 }
 
 /**
- * get_env - gets the value of an environ variable
+ * _getenv - gets the value of an environ variable
  * @info: Structure containing potential arguments. Used to maintain
  * @name: env var name
  *
  * Return: the value
  */
-char *get_env(info_t *info, const char *name)
+char *_getenv(info_t *info, const char *name)
 {
 	list_t *node = info->env;
 	char *p;
